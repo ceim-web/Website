@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CEIM - Coordinación de Eventos. Liderazgo actual y anterior de la división." />
+  <title>Coordinación de Eventos | CEIM</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root{
+      --red:#c8102e;
+      --red-dark:#8f0b21;
+      --red-soft:#fce8ec;
+      --black:#171717;
+      --gray-900:#242424;
+      --gray-700:#555;
+      --gray-500:#7c7c7c;
+      --gray-200:#e8e8e8;
+      --gray-100:#f6f6f6;
+      --white:#fff;
+      --shadow:0 18px 45px rgba(0,0,0,.08);
+      --radius:22px;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:"Inter",sans-serif;
+      background:var(--white);
+      color:var(--black);
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    .container{
+      width:min(1180px, calc(100% - 40px));
+      margin:auto;
+    }
+
+    .section{
+      padding:95px 0;
+    }
+
+    .section-light{
+      background:var(--gray-100);
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      color:var(--red);
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:.76rem;
+      margin-bottom:14px;
+    }
+
+    .eyebrow::before{
+      content:"";
+      width:30px;
+      height:3px;
+      border-radius:999px;
+      background:var(--red);
+    }
+
+    .section-title{
+      font-family:"Space Grotesk",sans-serif;
+      font-size:clamp(2rem,4vw,3.2rem);
+      line-height:1.08;
+      margin-bottom:15px;
+      max-width:760px;
+    }
+
+    .section-copy{
+      color:var(--gray-700);
+      max-width:760px;
+      font-size:1.02rem;
+    }
+
+    /* Header */
+    header{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      z-index:1000;
+      background:rgba(255,255,255,.94);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(0,0,0,.06);
+    }
+
+    .nav{
+      height:76px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+    }
+
+    .brand-mark{
+      width:44px;
+      height:44px;
+      color:white;
+      border-radius:13px;
+      display:grid;
+      place-items:center;
+      font-family:"Space Grotesk",sans-serif;
+      font-size:.95rem;
+    }
+
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      line-height:1.15;
+    }
+
+    .brand-text strong{
+      font-family:"Space Grotesk",sans-serif;
+      font-size:1.05rem;
+      letter-spacing:.04em;
+      color:var(--black);
+    }
+
+    .brand-text span{
+      color:var(--gray-500);
+      font-size:.71rem;
+      font-weight:600;
+    }
+
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:24px;
+      font-size:.93rem;
+      font-weight:600;
+    }
+
+    .nav-links a{
+      transition:.2s ease;
+    }
+
+    .nav-links a:hover{
+      color:var(--red);
+    }
+
+    .nav-cta{
+      background:var(--red);
+      color:white !important;
+      padding:10px 17px;
+      border-radius:12px;
+    }
+
+    .menu-btn{
+      display:none;
+      background:none;
+      border:0;
+      font-size:1.6rem;
+      cursor:pointer;
+    }
+
+    /* Page header (hero simplificado para subpáginas) */
+    .page-hero{
+      padding:150px 0 60px;
+      position:relative;
+      background:
+        radial-gradient(circle at 80% 10%, rgba(200,16,46,.10), transparent 30%),
+        linear-gradient(180deg,#fff 0%,#fff 80%,#fafafa 100%);
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-weight:700;
+      font-size:.9rem;
+      color:var(--gray-700);
+      margin-bottom:22px;
+      transition:.2s ease;
+    }
+
+    .back-link:hover{
+      color:var(--red);
+    }
+
+    .division-tag{
+      display:inline-block;
+      font-size:.73rem;
+      font-weight:800;
+      color:var(--red);
+      background:var(--red-soft);
+      border-radius:999px;
+      padding:6px 12px;
+      margin-bottom:16px;
+    }
+
+    /* Leadership cards */
+    .leader-grid{
+      margin-top:38px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .leader-grid.two-col{
+      grid-template-columns:repeat(2,1fr);
+      max-width:780px;
+    }
+
+    .leader-card{
+      background:white;
+      border:1px solid var(--gray-200);
+      border-radius:var(--radius);
+      padding:26px;
+      position:relative;
+      overflow:hidden;
+      transition:.25s ease;
+    }
+
+    .leader-card::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:0;
+      width:0;
+      height:4px;
+      background:var(--red);
+      transition:.25s ease;
+    }
+
+    .leader-card:hover{
+      transform:translateY(-6px);
+      box-shadow:var(--shadow);
+      border-color:rgba(200,16,46,.18);
+    }
+
+    .leader-card:hover::after{
+      width:100%;
+    }
+
+    .leader-photo{
+      width:72px;
+      height:72px;
+      border-radius:16px;
+      background:var(--gray-100);
+      border:1px dashed var(--gray-200);
+      display:grid;
+      place-items:center;
+      color:var(--gray-500);
+      font-size:.7rem;
+      font-weight:700;
+      text-align:center;
+      margin-bottom:18px;
+      overflow:hidden;
+    }
+
+    .leader-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .leader-role{
+      display:inline-block;
+      font-size:.72rem;
+      font-weight:800;
+      color:var(--red);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      margin-bottom:6px;
+    }
+
+    .leader-card h3{
+      font-family:"Space Grotesk",sans-serif;
+      font-size:1.2rem;
+      margin-bottom:6px;
+    }
+
+    .leader-card p{
+      color:var(--gray-700);
+      font-size:.88rem;
+    }
+
+    .leader-contact{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .leader-contact a{
+      font-size:.78rem;
+      font-weight:700;
+      color:var(--red);
+      border:1px solid var(--red-soft);
+      background:var(--red-soft);
+      border-radius:999px;
+      padding:6px 12px;
+    }
+
+    /* Past leaders timeline */
+    .past-list{
+      margin-top:38px;
+      display:grid;
+      gap:14px;
+    }
+
+    .past-item{
+      display:grid;
+      grid-template-columns:120px 1fr;
+      gap:22px;
+      align-items:start;
+      padding:18px 0;
+      border-bottom:1px solid var(--gray-200);
+    }
+
+    .past-period{
+      font-family:"Space Grotesk",sans-serif;
+      color:var(--red);
+      font-weight:700;
+      font-size:1rem;
+    }
+
+    .past-names{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .past-names strong{
+      font-size:.98rem;
+    }
+
+    .past-names span{
+      color:var(--gray-700);
+      font-size:.85rem;
+    }
+
+    /* Footer */
+    footer{
+      padding:46px 0 28px;
+      border-top:1px solid var(--gray-200);
+      margin-top:70px;
+    }
+
+    .footer-grid{
+      display:flex;
+      justify-content:space-between;
+      gap:25px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .footer-copy{
+      max-width:520px;
+      color:var(--gray-700);
+      font-size:.9rem;
+      margin-top:12px;
+    }
+
+    .footer-links{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      font-size:.88rem;
+      font-weight:700;
+    }
+
+    .footer-links a:hover{
+      color:var(--red);
+    }
+
+    .copyright{
+      color:var(--gray-500);
+      font-size:.79rem;
+      margin-top:28px;
+      padding-top:20px;
+      border-top:1px solid var(--gray-200);
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .leader-grid{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .nav-links{
+        position:absolute;
+        top:76px;
+        left:20px;
+        right:20px;
+        background:white;
+        flex-direction:column;
+        align-items:flex-start;
+        padding:22px;
+        border-radius:18px;
+        box-shadow:var(--shadow);
+        border:1px solid var(--gray-200);
+        display:none;
+      }
+
+      .nav-links.open{
+        display:flex;
+      }
+
+      .menu-btn{
+        display:block;
+      }
+    }
+
+    @media (max-width: 680px){
+      .container{
+        width:min(100% - 26px, 1180px);
+      }
+
+      .section{
+        padding:72px 0;
+      }
+
+      .page-hero{
+        padding:120px 0 50px;
+      }
+
+      .leader-grid,
+      .leader-grid.two-col{
+        grid-template-columns:1fr;
+      }
+
+      .past-item{
+        grid-template-columns:1fr;
+        gap:4px;
+      }
+
+      .brand-text span{
+        display:none;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="container nav">
+      <a href="index.html" class="brand" aria-label="Inicio CEIM">
+        <div class="brand-mark">
+          <img src="Logo Ceim Red.png" alt="Logo CEIM" style="width:100%;height:100%;object-fit:contain;">
+        </div>
+        <div class="brand-text">
+          <strong>CEIM</strong>
+          <span>Comité Estudiantil de Ingeniería Mecánica</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html#divisiones">Divisiones</a>
+        <a href="index.html#capitulos">Capítulos</a>
+        <a href="index.html#logros">Logros</a>
+        <a href="index.html#actividades">Actividades</a>
+        <a href="index.html#contacto" class="nav-cta">Únete</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <a href="index.html#divisiones" class="back-link">← Volver a divisiones</a>
+        <div class="division-tag">División 11</div>
+        <h1 class="section-title">Coordinación de Eventos</h1>
+        <p class="section-copy">Apoyo logístico y operativo en eventos, montajes, registro de participantes, acompañamiento y ejecución de actividades.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="eyebrow">Liderazgo actual</div>
+        <h2 class="section-title" style="font-size:clamp(1.6rem,3vw,2.2rem);">Equipo a cargo de Coordinación de Eventos</h2>
+        <p class="section-copy">Estos son los estudiantes que actualmente representan y dirigen esta división dentro del CEIM.</p>
+
+        <div class="leader-grid two-col">
+          <div class="leader-card">
+            <div class="leader-photo">Foto</div>
+            <span class="leader-role">Director</span>
+            <h3>Nombre Apellido</h3>
+            <p>Semestre — Carrera. Breve descripción o funciones dentro de la división.</p>
+            <div class="leader-contact">
+              <a href="mailto:correo@uninorte.edu.co">Correo</a>
+              <a href="#">Instagram</a>
+            </div>
+          </div>
+
+          <div class="leader-card">
+            <div class="leader-photo">Foto</div>
+            <span class="leader-role">Subdirector</span>
+            <h3>Nombre Apellido</h3>
+            <p>Semestre — Carrera. Breve descripción o funciones dentro de la división.</p>
+            <div class="leader-contact">
+              <a href="mailto:correo@uninorte.edu.co">Correo</a>
+              <a href="#">Instagram</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-light">
+      <div class="container">
+        <div class="eyebrow">Historial</div>
+        <h2 class="section-title" style="font-size:clamp(1.6rem,3vw,2.2rem);">Liderazgo anterior</h2>
+        <p class="section-copy">Un reconocimiento a quienes han liderado esta división en semestres anteriores.</p>
+
+        <div class="past-list">
+          <div class="past-item">
+            <div class="past-period">2024-2025</div>
+            <div class="past-names">
+              <strong>Nombre Apellido (Director) · Nombre Apellido (Subdirector)</strong>
+              <span>Logros o aportes destacados durante su gestión.</span>
+            </div>
+          </div>
+
+          <div class="past-item">
+            <div class="past-period">2023-2024</div>
+            <div class="past-names">
+              <strong>Nombre Apellido (Director) · Nombre Apellido (Subdirector)</strong>
+              <span>Logros o aportes destacados durante su gestión.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand">
+            <div class="brand-mark">
+              <img src="Logo Ceim Red.png" alt="Logo CEIM" style="width:100%;height:100%;object-fit:contain;">
+            </div>
+            <div class="brand-text">
+              <strong>CEIM</strong>
+              <span>Comité Estudiantil de Ingeniería Mecánica</span>
+            </div>
+          </div>
+          <p class="footer-copy">
+            Comunidad estudiantil orientada al liderazgo, la formación técnica,
+            la investigación y la conexión entre universidad e industria.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <a href="index.html#inicio">Inicio</a>
+          <a href="index.html#divisiones">Divisiones</a>
+          <a href="index.html#capitulos">Capítulos</a>
+          <a href="index.html#logros">Logros</a>
+          <a href="index.html#actividades">Actividades</a>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © <span id="year"></span> CEIM · Comité Estudiantil de Ingeniería Mecánica.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+    menuBtn.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+      menuBtn.textContent = navLinks.classList.contains("open") ? "✕" : "☰";
+    });
+    document.querySelectorAll(".nav-links a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuBtn.textContent = "☰";
+      });
+    });
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
